@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import com.example.attivit_progettuale.databinding.ActivityMainBinding
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.pytorch.demo.objectdetection.PrePostProcessor
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.processor.NearestNeighbor
@@ -71,24 +70,12 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-
-
-
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
         } else {
             requestPermissions()
         }
-
-        val br = BufferedReader(InputStreamReader(assets.open("classes.txt")))
-        var line: String?
-        val classes: MutableList<String> = ArrayList()
-        while (br.readLine().also { line = it } != null) {
-            line?.let { classes.add(it) }
-        }
-        br.close()
-        PrePostProcessor.mClasses = Array(classes.size) { i -> classes[i] }
 
         val options: ImageSearcher.ImageSearcherOptions = ImageSearcher.ImageSearcherOptions.builder()
             .setBaseOptions(BaseOptions.builder().build())
