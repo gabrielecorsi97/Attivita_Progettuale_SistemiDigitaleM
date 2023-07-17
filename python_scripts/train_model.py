@@ -127,12 +127,12 @@ def test_5_examples(model, index_size, query_size):
         tfsim.visualization.viz_neigbors_imgs(test_data[bid], test_y[bid], nn, class_mapping=class_map_val_to_label, cmap="Greys")
 
 
-train_folder = "/home/gab/PycharmProjects/tf_similarity/nuovo_dataset_v3/train"
+train_folder = "./dataset_v3/train"
 x_train, x_train_img, y_train, class_map_val_to_label, class_map_from_label_to_val = load_train_dataset(train_folder)
 
 save_json_with_classes(class_map_val_to_label,class_map_from_label_to_val)
 
-test_folder = "/home/gab/PycharmProjects/tf_similarity/nuovo_dataset_v3/test"
+test_folder = "./dataset_v3/test"
 x_test, x_test_img, y_test = load_test_dataset(test_folder, class_map_from_label_to_val)
 
 training_classes = len(class_map_val_to_label) - 1
@@ -231,5 +231,5 @@ calibration = model.calibrate(
     verbose=1,
 )
 
-save_path = "/home/gab/PycharmProjects/tf_similarity/model_efficientNet"  # @param {type:"string"}
+save_path = "./model_efficientNet"  # @param {type:"string"}
 model.save(save_path, save_index=True, compression=False)
