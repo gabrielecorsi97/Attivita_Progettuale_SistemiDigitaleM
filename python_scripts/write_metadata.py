@@ -63,10 +63,10 @@ b.Finish(
     model_meta.Pack(b),
     _metadata.MetadataPopulator.METADATA_FILE_IDENTIFIER)
 metadata_buf = b.Output()
-model_file = "/home/gab/PycharmProjects/tf_similarity/model_efficientNet.tflite"
+model_file = "./model_efficientNet.tflite"
 populator = _metadata.MetadataPopulator.with_model_file(model_file)
 populator.load_metadata_buffer(metadata_buf)
-populator.load_associated_files(["/home/gab/PycharmProjects/tf_similarity/classes.txt"])
+populator.load_associated_files(["./classes.txt"])
 populator.populate()
 
 model_basename = "efficient_net"
