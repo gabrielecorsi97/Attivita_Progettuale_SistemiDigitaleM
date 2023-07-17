@@ -19,10 +19,10 @@ def image_to_data_uri(image_path):
     return "data:image/jpeg;base64," + encoded_image
 
 
-TRAIN_DIR = "/home/gab/PycharmProjects/tf_similarity/index_v4 (senza 2e,1e,50c)"
+TRAIN_DIR = "./index_v4"
 #TRAIN_DIR = "/home/gab/PycharmProjects/tf_similarity/index_v3"
 
-save_path = "/home/gab/PycharmProjects/tf_similarity/model_efficientNet"
+save_path = "./model_efficientNet"
 # reload the model
 reloaded_model = tf.keras.models.load_model(
     save_path,
@@ -177,11 +177,11 @@ def display_projections(
     # Display the HTML template in the Jupyter Notebook
     html = HTML(html_template)
     display(html)
-    with open('/home/gab/PycharmProjects/tf_similarity/projection.html', 'wb') as f:  # Use some reasonable temp name
+    with open('./projection.html', 'wb') as f:  # Use some reasonable temp name
         f.write(html_template.encode("UTF-8"))
 
     # open an HTML file on my own (Windows) computer
-    url = r'/home/gab/PycharmProjects/tf_similarity/projection.html'
+    url = r'./projection.html'
     webbrowser.open(url, new=2)
 
 display_projections(
