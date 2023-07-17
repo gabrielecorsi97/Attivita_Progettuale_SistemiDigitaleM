@@ -10,10 +10,10 @@ import tflite_model_maker as mm
 from tflite_support.task import vision
 from tflite_model_maker import searcher
 
-data_loader = searcher.ImageDataLoader.create("/home/gab/PycharmProjects/tf_similarity/model_efficientNet.tflite")
+data_loader = searcher.ImageDataLoader.create("./model_efficientNet.tflite")
 
 
-train_folder = "/home/gab/PycharmProjects/tf_similarity/index_v4 (senza 2e,1e,50c)"
+train_folder = "./index_v4"
 print("Class in index:")
 tot_db = 0
 for folder in sorted(listdir(train_folder)):
