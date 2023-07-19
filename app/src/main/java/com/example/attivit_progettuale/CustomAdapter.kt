@@ -1,22 +1,18 @@
 package com.example.attivit_progettuale
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
-import java.io.InputStream
 
 
-class CustomAdapter(private val dataSet: Map<String, Float>, val context: Context) :
+class CustomAdapter(private val dataSet: List<Pair<String, Float>>, private val context: Context) :
     RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     /**
@@ -51,9 +47,8 @@ class CustomAdapter(private val dataSet: Map<String, Float>, val context: Contex
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        val key = dataSet.keys.toList()[position]
+        val key = dataSet[position].first
         viewHolder.textView.text = key
-        Log.d(TAG,"****"+ key)
 
         val bitmap = context.assets.open("reference/$key.jpg")
         val bit = BitmapFactory.decodeStream(bitmap)
@@ -61,10 +56,8 @@ class CustomAdapter(private val dataSet: Map<String, Float>, val context: Contex
             viewHolder.linearLayout.background = context.getDrawable(R.drawable.customborder)
         }
         viewHolder.imageView.setImageBitmap(bit)
-        viewHolder.textDistance.text = dataSet[key]?.format(4)
+        viewHolder.textDistance.text = dataSet[position].second.format(4)
         viewHolder.itemView.setOnClickListener {
-            Log.d("PROVA", "TEST \n *** \n TEST")
-
             val myIntent = Intent(context, CoinDetail::class.java)
             myIntent.putExtra("key",key)
             context.startActivity(myIntent)
@@ -73,6 +66,6 @@ class CustomAdapter(private val dataSet: Map<String, Float>, val context: Contex
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
-    fun Float.format(digits: Int) = "%.${digits}f".format(this)
+    private fun Float.format(digits: Int) = "%.${digits}f".format(this)
 
 }

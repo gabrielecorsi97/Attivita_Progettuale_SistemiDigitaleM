@@ -1,9 +1,8 @@
 package com.example.attivit_progettuale
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.attivit_progettuale.databinding.ActivityResultBinding
@@ -31,7 +30,8 @@ class CoinResultActivity : AppCompatActivity() {
         }
 
         val results = intent.getSerializableExtra("results") as HashMap<String, Float>
-        val resultsSorted = results.toList().sortedBy { (_,value)-> value }.toMap()
+        Log.d("CameraXApp", "SORTED: $results")
+        val resultsSorted = results.toList().sortedBy { (_,value)-> value }
         val customAdapter = CustomAdapter(resultsSorted, this)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)

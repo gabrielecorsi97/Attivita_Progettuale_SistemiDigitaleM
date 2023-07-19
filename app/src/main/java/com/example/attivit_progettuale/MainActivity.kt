@@ -25,7 +25,6 @@ import org.tensorflow.lite.task.processor.NearestNeighbor
 import org.tensorflow.lite.task.processor.SearcherOptions
 import org.tensorflow.lite.task.vision.searcher.ImageSearcher
 import java.io.*
-import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import kotlin.collections.HashMap
@@ -84,7 +83,7 @@ class MainActivity : AppCompatActivity() {
             )
             .build()
         imageSearcher =
-            ImageSearcher.createFromFileAndOptions(this, "searcher.tflite", options)
+            ImageSearcher.createFromFileAndOptions(this, "searcher2.tflite", options)
 
 
         // Set up the listeners for take photo and video capture buttons
@@ -146,11 +145,16 @@ class MainActivity : AppCompatActivity() {
                         540
                     )
                     val photoForInference = Bitmap.createScaledBitmap(photoCropped, 300, 300, true)
+                    val start = System.nanoTime()
                     val results : List<NearestNeighbor> = imageSearcher.search(TensorImage.fromBitmap(photoForInference))
-                    val resultsParsed = results.associate { String(it.metadata.array()) to it.distance } as HashMap<String, Float>
-
-
+                    val endTime = System.nanoTime()
                     results.forEach { Log.d(TAG, String(it.metadata.array()) +" "+ it.distance.toString())}
+
+                    val mapSorted = results.distinctBy { it.metadata }.associate { String(it.metadata.array()) to it.distance} as HashMap<String,Float>
+                    Log.d(TAG, "Totale tempo per l'inferenza: ${endTime-start} ns")
+                    Log.d(TAG, "SORTED: $mapSorted")
+
+
                     image.close()
                     try {
                         //Write file
@@ -164,7 +168,7 @@ class MainActivity : AppCompatActivity() {
                         //Pop intent
                         val myIntent = Intent(applicationContext, CoinResultActivity::class.java)
                         myIntent.putExtra("bitmapName",filename)
-                        myIntent.putExtra("results", resultsParsed)
+                        myIntent.putExtra("results", mapSorted)
                         this@MainActivity.startActivity(myIntent)
                     } catch (e: java.lang.Exception) {
                         e.printStackTrace()
