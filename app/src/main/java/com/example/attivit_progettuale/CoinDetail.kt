@@ -14,20 +14,8 @@ class CoinDetail : AppCompatActivity() {
         val intent = intent
         val key = intent.getStringExtra("key")
         if (key != null) {
-            Log.d("PROVA", key)
             val coin  = MainActivity.CoinListHolder.getCoinFromKey("$key.jpg")
-            if(coin is MonetaNazionale){
-                val bitmap = this.assets.open("reference/$key.jpg")
-                val bit = BitmapFactory.decodeStream(bitmap)
-                binding.imageDetail.setImageBitmap(bit)
-
-            }
-            if(coin is MonetaFronte){
-                val bitmap = this.assets.open("reference/$key.jpg")
-                val bit = BitmapFactory.decodeStream(bitmap)
-                binding.imageDetail.setImageBitmap(bit)
-            }
-            if(coin is MonetaCommemorativa){
+            if (coin != null) {
                 binding.titleDetail.text = coin.feature
                 val bitmap = this.assets.open("reference/$key.jpg")
                 val bit = BitmapFactory.decodeStream(bitmap)
@@ -35,7 +23,6 @@ class CoinDetail : AppCompatActivity() {
                 binding.tiraturaDetail.text =  "Issuing volume: "+coin.tiratura
                 binding.dataDetail.text = "Issuing date: "+coin.data
                 binding.descriptionDetail.text = coin.description
-
             }
         }
         setContentView(binding.root)

@@ -91,15 +91,10 @@ class MainActivity : AppCompatActivity() {
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        var jsonString = getJsonDataFromAsset(this, "monete_commemotative.json")
+        val jsonString = getJsonDataFromAsset(this, "monete_commemotative.json")
         val listMonetaComm = jsonString?.let { Json.decodeFromString<List<MonetaCommemorativa>>(it) }
-        jsonString = getJsonDataFromAsset(this, "monete_nazionali.json")
-        val listMonetaNaz= jsonString?.let { Json.decodeFromString<List<MonetaNazionale>>(it) }
-        jsonString = getJsonDataFromAsset(this, "monete_fronte.json")
-        val listMonetaFronte= jsonString?.let { Json.decodeFromString<List<MonetaFronte>>(it) }
         CoinListHolder.addItemsComm(listMonetaComm!!)
-        CoinListHolder.addItemsNaz(listMonetaNaz!!)
-        CoinListHolder.addItemsFront(listMonetaFronte!!)
+
     }
 
     private fun takePhoto() {
@@ -154,14 +149,12 @@ class MainActivity : AppCompatActivity() {
                     Log.d(TAG, "Totale tempo per l'inferenza: ${endTime-start} ns")
                     Log.d(TAG, "SORTED: $mapSorted")
 
-
                     image.close()
                     try {
                         //Write file
                         val filename = "bitmap.png"
                         val stream: FileOutputStream = openFileOutput(filename, MODE_PRIVATE)
                         photoCropped.compress(Bitmap.CompressFormat.PNG, 90, stream)
-
                         //Cleanup
                         stream.close()
                         photoCropped.recycle()
@@ -263,27 +256,14 @@ class MainActivity : AppCompatActivity() {
 
     object CoinListHolder {
         private val listComm = mutableListOf<MonetaCommemorativa>()
-        private val listFronte = mutableListOf<MonetaFronte>()
-        private val listNaz = mutableListOf<MonetaNazionale>()
+
 
         fun addItemsComm(items: List<MonetaCommemorativa>) {
             listComm.addAll(items)
         }
-        fun addItemsFront(items: List<MonetaFronte>) {
-            listFronte.addAll(items)
-        }
-        fun addItemsNaz(items: List<MonetaNazionale>) {
-            listNaz.addAll(items)
-        }
 
-        fun getCoinFromKey(key : String) : Moneta? {
+        fun getCoinFromKey(key : String) : MonetaCommemorativa? {
             for(coin in listComm){
-                if(coin.key == key) return coin
-            }
-            for(coin in listFronte){
-                if(coin.key == key) return coin
-            }
-            for(coin in listNaz){
                 if(coin.key == key) return coin
             }
             return null
